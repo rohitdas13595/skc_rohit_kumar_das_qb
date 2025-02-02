@@ -10,6 +10,9 @@ import { PaginationState } from "@tanstack/react-table";
 import { useState } from "react";
 import { Question } from "@/lib/db/schema";
 import { set } from "react-hook-form";
+import { createTestSubmission } from "@/lib/actions/test.submission";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 export function TakeTest({
   user,
   test,
@@ -48,6 +51,7 @@ function TakeTestComponent({
 
   const [questionAnswers, setQuestionAnswers] = useState<QuestionAnswer[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const router = useRouter();
 
   const {
     data: questions,
@@ -75,7 +79,27 @@ function TakeTestComponent({
   return (
     <div className=" flex flex-col w-full">
       <div className="w-full flex justify-end">
-        <button onClick={() => {}}>Submit Test</button>
+        <button
+          onClick={async () => {
+            try {
+              const result = await createTestSubmission(
+                questionAnswers,
+                test.id
+              );
+              if (!result) {
+                toast.error("Error submitting test");
+                return;
+              }
+              toast.success("Test submitted successfully");
+              router.push("/");
+            } catch (e) {
+              console.log(e);
+            }
+          }}
+          className="py-2 px-4 bg-mantle hover:bg-crust text-white font-bold rounded"
+        >
+          Submit Test
+        </button>
       </div>
       {questionAnswers && questionAnswers[currentQuestionIndex] ? (
         <div className="flex flex-col gap-4">

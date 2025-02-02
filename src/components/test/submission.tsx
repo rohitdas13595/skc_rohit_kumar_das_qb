@@ -32,7 +32,7 @@ export const Submission = ({ testId }: { testId: string }) => {
   const columns: ColumnDef<any | undefined>[] = [
     {
       accessorKey: "id",
-      header: "Test Name",
+      header: "Submission Name",
       cell: ({ row }) => (
         <div className="flex gap-2 items-center">
           <p>{row.original?.name}</p>
@@ -50,39 +50,38 @@ export const Submission = ({ testId }: { testId: string }) => {
       },
     },
     {
-      accessorKey: "status",
-      header: "Status",
+      accessorKey: "score",
+      header: "Score",
       cell: ({ row }) => {
-        return (
-          <>
-            {
-              {
-                pending: "Pending",
-                "in-progress": "In Progress",
-                completed: "Completed",
-              }[row.original?.status as string]
-            }
-          </>
-        );
+        if (row.original?.total) {
+          return (
+            <div className="flex gap-2 items-center">
+              <p>{row.original?.correct}</p>
+              <p>/</p>
+              <p>{row.original?.total}</p>
+            </div>
+          );
+        }
+        return <></>;
       },
     },
-    {
-      accessorKey: "actions",
-      header: "Actions",
-      cell: ({ row }) => {
-        return (
-          <div className="flex gap-2 items-center">
-            <Link
-              href={`/user/submission/${row.original?.id}`}
-              className="flex gap-2 text-black bg-crust py-1 px-4  font-bold text-white  rounded-2xl text-white shadow-xl border border-white hover:bg-mantle"
-            >
-              <Eye />
-              View
-            </Link>
-          </div>
-        );
-      },
-    },
+    // {
+    //   accessorKey: "actions",
+    //   header: "Actions",
+    //   cell: ({ row }) => {
+    //     return (
+    //       <div className="flex gap-2 items-center">
+    //         <Link
+    //           href={`/user/submission/${row.original?.id}`}
+    //           className="flex gap-2 text-black bg-crust py-1 px-4  font-bold text-white  rounded-2xl text-white shadow-xl border border-white hover:bg-mantle"
+    //         >
+    //           <Eye />
+    //           View
+    //         </Link>
+    //       </div>
+    //     );
+    //   },
+    // },
   ];
 
   const {
