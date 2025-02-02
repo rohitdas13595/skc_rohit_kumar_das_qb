@@ -18,7 +18,7 @@ export default function Home() {
             needs.
           </p>
           <div className="flex items-center gap-4">
-            Powered BI:
+            Powered By:
             <div className="flex items-center p-2 bg-white rounded">
               <img
                 src="/images/gemini.jpg"
