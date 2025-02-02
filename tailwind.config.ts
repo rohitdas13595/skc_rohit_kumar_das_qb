@@ -1,0 +1,67 @@
+import type { Config } from "tailwindcss";
+
+export default {
+  darkMode: ["class"],
+  content: [
+    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+  ],
+  theme: {
+    extend: {
+      backgroundImage: {
+        login: "url('/illustrations/login.png')",
+      },
+      colors: {
+        background: "#1e1e2e",
+        foreground: "#f5e0dc",
+        rosewater: "#f5e0dc",
+        flamingo: "#f2cdcd",
+        pink: "#f5c2e7",
+        mauve: "#cba6f7",
+        red: "#f38ba8",
+        maroon: "#eba0ac",
+        peach: "#fab387",
+        yellow: "#f9e2af",
+        green: "#a6e3a1",
+        teal: {
+          50: "#e0f2f1",
+          100: "#94e2d5",
+          200: "#89dceb",
+          300: "#74c7ec",
+          400: "#74c7ec",
+          500: "#74c7ec",
+          600: "#74c7ec",
+          700: "#74c7ec",
+          800: "#74c7ec",
+          900: "#74c7ec",
+        },
+        sky: "#89dceb",
+        sapphire: "#74c7ec",
+        blue: "#89b4fa",
+        lavender: "#b4befe",
+        text: "#cdd6f4",
+        subtext1: "#bac2de",
+        subtext0: "#a6adc8",
+        overlay2: "#9399b2",
+        overlay1: "#7f849c",
+        overlay0: "#6c7086",
+        surface2: "#585b70",
+        surface1: "#45475a",
+        surface0: "#313244",
+        base: "#1e1e2e",
+        mantle: "#181825",
+        crust: "#11111b",
+        white: "#ffffff",
+        black: "#000000",
+      },
+
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
+      },
+    },
+  },
+  plugins: [require("tailwindcss-animate")],
+} satisfies Config;

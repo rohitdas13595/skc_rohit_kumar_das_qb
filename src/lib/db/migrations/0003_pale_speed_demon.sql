@@ -1,0 +1,1 @@
+ALTER TABLE "test" RENAME COLUMN "subject" TO "language";
