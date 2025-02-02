@@ -18,12 +18,14 @@ export default function Home() {
             needs.
           </p>
           <div className="flex items-center gap-4">
-            Powered By:
-            <img
-              src="/images/gemini.jpg"
-              alt=""
-              className="w-[100px] rounded"
-            />
+            Powered BI:
+            <div className="flex items-center p-2 bg-white rounded">
+              <img
+                src="/images/gemini.jpg"
+                alt=""
+                className="w-[100px] rounded"
+              />
+            </div>
           </div>
           <Link href="/signup">
             <InteractiveHoverButton className="w-fit my-12">
