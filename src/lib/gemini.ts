@@ -3,8 +3,12 @@ import { settings } from "./settings/settings";
 
 export class GeminiAgentService {
   private model: GenerativeModel;
-  constructor() {
-    const genAi = new GoogleGenerativeAI(settings.geminiApiKey);
+  constructor(public apiKey?: string) {
+    const genAi = new GoogleGenerativeAI(
+      this?.apiKey && this.apiKey.length > 5
+        ? this.apiKey
+        : settings.geminiApiKey
+    );
     this.model = genAi.getGenerativeModel({ model: "gemini-2.0-flash-exp" });
   }
 

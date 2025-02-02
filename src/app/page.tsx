@@ -51,6 +51,14 @@ export default function Home() {
           This project is built using Drizzle, PG , NextJS, TailwindCSS,
           Typescript, Gemini AI, and Deployed on Vercel.
         </p>
+        <Link
+          target="_blank"
+          href="https://github.com/rohitdas13595/skc_rohit_kumar_das_qb.git"
+        >
+          <InteractiveHoverButton>
+            More Details About The Project
+          </InteractiveHoverButton>
+        </Link>
       </div>
       <div className="mb-4"></div>
     </div>

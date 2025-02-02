@@ -26,6 +26,7 @@ export const AddTestSchema = z.object({
     }),
   level: z.enum(["beginner", "intermediate", "advanced"]),
   language: z.enum(["python", "java", "c++", "c", "javascript", "html", "css"]),
+  apiKey: z.optional(z.string()),
 });
 
 export function AddTest({
@@ -58,6 +59,7 @@ export function AddTest({
       status: "pending",
       numberOfQuestions: 5,
       level: "beginner",
+      apiKey: "",
     },
   });
 
@@ -80,7 +82,8 @@ export function AddTest({
           language: data.language,
         },
         data.numberOfQuestions,
-        data.level
+        data.level,
+        data.apiKey
       );
       if (created) {
         toast.success("Test created successfully");
@@ -159,6 +162,15 @@ export function AddTest({
               type="text"
               label="Description"
               error={errors.description}
+            />
+
+            <p>Gemini Api Key If Default Not Working!</p>
+            <InputFieldSign
+              register={register}
+              name="apiKey"
+              type="text"
+              label="Gemini Api Key"
+              error={errors.apiKey}
             />
 
             <button

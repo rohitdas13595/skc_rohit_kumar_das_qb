@@ -71,7 +71,8 @@ export const getTest = async (testId: string) => {
 export const createTest = async (
   test: typeof Test.$inferInsert,
   numberOfQuestions: number = 5,
-  level: "beginner" | "intermediate" | "advanced" = "beginner"
+  level: "beginner" | "intermediate" | "advanced" = "beginner",
+  apiKey?: string
 ) => {
   const response = await db
     .insert(Test)
@@ -85,7 +86,8 @@ export const createTest = async (
       response[0].id,
       response[0].language ?? test.language ?? "python",
       numberOfQuestions,
-      level
+      level,
+      apiKey
     );
     if (!questions) {
       await deleteTest(response[0].id);
@@ -117,9 +119,10 @@ const createQuestions = async (
   testId: string,
   language: string,
   numberOfQuestions: number,
-  level: string
+  level: string,
+  apiKey?: string
 ) => {
-  const geminiAgentService = new GeminiAgentService();
+  const geminiAgentService = new GeminiAgentService(apiKey);
   const result = await geminiAgentService.generateQuestions({
     language: language,
     numberOfQuestions: numberOfQuestions,

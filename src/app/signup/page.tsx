@@ -26,7 +26,7 @@ export default function Signin() {
         <div className="flex  flex-col bg-mantle items-center gap-4 justify-center w-fit h-fit p-8 rounded shadow-xl">
           <div className="flex items-center gap-2 shadow-xl rounded-2xl ">
             <Image src="/images/logo.png" alt="logo" width={30} height={30} />
-            <h2 className="text-xl font-bold">Beyondchats</h2>
+            <h2 className="text-xl font-bold">Skool Of Code</h2>
           </div>
 
           <SignUpForm />

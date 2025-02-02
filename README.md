@@ -1,14 +1,14 @@
-## Skoolofcode Assignment
+## Skool Of Code Assignment
 
 #### Project Details
 
-| Info             | Value                   |
-| ---------------- | ----------------------- |
-| Project Name     | Beyond Chats Assignment |
-| Hosting Provider | Vercel                  |
-| URL              |                         |
-| Author           | Rohit Kumar Das         |
-| email            | contact@rohituno.com    |
+| Info             | Value                                     |
+| ---------------- | ----------------------------------------- |
+| Project Name     | Beyond Chats Assignment                   |
+| Hosting Provider | Vercel                                    |
+| URL              | https://skc-rohit-kumar-das-qb.vercel.app |
+| Author           | Rohit Kumar Das                           |
+| email            | contact@rohituno.com                      |
 
 #### Tech Stack
 
@@ -34,14 +34,15 @@ import {
   PgEnumColumn,
   boolean,
   json,
+  integer,
 } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
+import { int } from "drizzle-orm/mysql-core";
 
 export const User = pgTable("users", {
   id: uuid("id").primaryKey().defaultRandom().notNull(),
   name: varchar("name", { length: 255 }),
   email: varchar("email", { length: 255 }).notNull().unique(),
-  company: varchar("company", { length: 255 }),
   password: varchar("password", { length: 255 }),
   isVerified: boolean("is_verified").default(false),
   signUpType: varchar("sign_up_type", {
@@ -56,25 +57,93 @@ export const User = pgTable("users", {
     .$onUpdateFn(() => sql`update users set updated_at = CURRENT_TIMESTAMP`),
 });
 
-export const Chatbot = pgTable("chatbot", {
+export const Child = pgTable("child", {
   id: uuid("id").primaryKey().defaultRandom().notNull(),
-  userId: uuid("user_id")
-    .notNull()
-    .references(() => User.id),
   name: varchar("name", { length: 255 }),
-  prompt: varchar("prompt", { length: 255 }),
-  webpages: json("webpages"),
-  website: varchar("website", { length: 255 }),
-  avatar: varchar("avatar", { length: 500 }),
-  isActive: boolean("is_active").default(true),
-  isScrapped: boolean("is_scrapped").default(false),
-  token: varchar("token", { length: 255 }),
-  data: json("data"),
+  parentId: uuid("parent_id")
+    .notNull()
+    .references(() => User.id, { onDelete: "cascade" }),
+  age: integer("age"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at")
     .defaultNow()
     .notNull()
-    .$onUpdateFn(() => sql`update chatbot set updated_at = CURRENT_TIMESTAMP`),
+    .$onUpdateFn(() => sql`update users set updated_at = CURRENT_TIMESTAMP`),
+});
+
+export const Test = pgTable("test", {
+  id: uuid("id").primaryKey().defaultRandom().notNull(),
+  language: varchar("language", { length: 255 }),
+  level: varchar("level", { length: 255 }),
+  childId: uuid("child_id")
+    .notNull()
+    .references(() => Child.id, { onDelete: "cascade" }),
+  name: varchar("name", { length: 255 }),
+  description: varchar("description", { length: 255 }),
+  status: varchar("status", {
+    length: 255,
+    enum: ["pending", "in-progress", "completed"],
+  }),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at")
+    .defaultNow()
+    .notNull()
+    .$onUpdateFn(() => sql`update users set updated_at = CURRENT_TIMESTAMP`),
+});
+
+export const Question = pgTable("question", {
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  testId: uuid("test_id")
+    .notNull()
+    .references(() => Test.id, { onDelete: "cascade" }),
+  question: varchar("question", { length: 255 }),
+  options: json("options"),
+  answer: varchar("answer", { length: 255 }),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at")
+    .defaultNow()
+    .notNull()
+    .$onUpdateFn(() => sql`update users set updated_at = CURRENT_TIMESTAMP`),
+});
+
+export const TestSubmission = pgTable("test_submission", {
+  id: uuid("id").primaryKey().defaultRandom().notNull(),
+  testId: uuid("test_id")
+    .notNull()
+    .references(() => Test.id, { onDelete: "cascade" }),
+  childId: uuid("child_id")
+    .notNull()
+    .references(() => Child.id, { onDelete: "cascade" }),
+  name: varchar("name", { length: 255 }),
+  description: varchar("description", { length: 255 }),
+  total: integer("total"),
+  correct: integer("correct"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at")
+    .defaultNow()
+    .notNull()
+    .$onUpdateFn(() => sql`update users set updated_at = CURRENT_TIMESTAMP`),
+});
+
+export const SubmittedAnswer = pgTable("submitted_answer", {
+  id: uuid("id").primaryKey().defaultRandom().notNull(),
+  testId: uuid("test_id")
+    .notNull()
+    .references(() => Test.id, { onDelete: "cascade" }),
+  questionId: integer("question_id")
+    .notNull()
+    .references(() => Question.id, { onDelete: "cascade" }),
+  testSubmissionId: uuid("test_submission_id")
+    .notNull()
+    .references(() => TestSubmission.id, { onDelete: "cascade" }),
+  answer: varchar("answer", { length: 255 }),
+  correctAnswer: varchar("correct_answer", { length: 255 }),
+  isCorrect: boolean("is_correct").default(false),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at")
+    .defaultNow()
+    .notNull()
+    .$onUpdateFn(() => sql`update users set updated_at = CURRENT_TIMESTAMP`),
 });
 ```
 
@@ -224,12 +293,12 @@ SignUp Page
 
 ![signup](./output/signup.png)
 
-Chat Bot Page
+User Dashboard
 
 ![User Dashboard](./output/userdash.png)
 
-Chatbot Page
+Test Pages
 
-![Chat bot](./output/chat.png)
+![Chat bot](./output/test.png)
 
-![Chat bot](./output/chat2.png)
+![Chat bot](./output/take-test.png)
